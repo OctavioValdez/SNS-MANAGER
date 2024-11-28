@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify
 import boto3
 from dotenv import load_dotenv
+from flask_cors import CORS
 import os
 
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
 sns_client = boto3.client('sns', region_name=os.getenv('REGION'), aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'), aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'))
 
@@ -30,4 +32,4 @@ def send_email():
     return jsonify({'message': 'Email sent', 'response': response})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
